@@ -1,0 +1,8 @@
+FROM mysql:5.7
+
+ENV MYSQL_ROOT_PASSWORD="root"
+ENV MYSQL_DATABASE="computer-database-db"
+
+ADD config/db/1-SCHEMA.sql config/db/2-PRIVILEGES.sql config/db/3-ENTRIES.sql /docker-entrypoint-initdb.d/
+
+CMD mysql -u root -p $MYSQL_ROOT_PASSWORD $MYSQL_DATABASE

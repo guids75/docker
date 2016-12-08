@@ -1,0 +1,32 @@
+Les dockers :
+
+mysql :
+docker build -f Dockerfile_mysql -t my-mysql
+docker run --detach my-mysql --name my-mysql
+
+maven :
+docker build -f Dockerfile_maven -t my-maven
+docker run -dit --name my-maven my-maven mvn --version
+
+tomcat :
+docker build -f Dockerfile_tomcat -t my-tomcat
+docker run -p 8081:8080 my-tomcat
+
+jenkins :
+docker build -f Dockerfile_jenkins -t my-jenkins
+docker run -d -v /var/run/docker:sock:/var/run/docker-sock -v $(which docker):/usr/bin/docker -p 8080:8080 my-jenkins
+
+------------------------------
+
+Commandes dans jenkins :
+
+sudo docker start my-mysql
+sudo docker inspect my-mysql
+IP_ADDRESS=`sudo docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' my-mysql`
+sudo docker exec --detach my-mysql mysql -uroot -proot -h $ADDRESS -P 3306
+
+sudo docker start my-maven
+sudo docker exec my-maven mvn clean install
+
+------------------------------
+
